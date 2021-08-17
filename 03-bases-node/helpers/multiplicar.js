@@ -2,7 +2,7 @@
 
 const fs = require("fs");
 
-const crearTBL = async (base = 5) => {
+const crearTBL = async (base = 5, lista) => {
   console.log("====================================");
   console.log("Tabla del", base);
   console.log("====================================");
@@ -13,7 +13,11 @@ const crearTBL = async (base = 5) => {
     for (let i = 1; i <= 10; i++) {
       salida += `${base} x ${i} = ${base * i}\n`;
     }
-    console.log(salida);
+
+    if (lista) {
+      console.log(salida);
+    }
+
     fs.writeFileSync(`tabla-${base}.txt`, salida);
 
     return `Tabla-${base}.text`;
