@@ -1,21 +1,15 @@
 /** @format */
 
-const fs = require("fs");
+const { crearTBL } = require("./helpers/multiplicar.js");
 
 console.clear();
-console.log("====================================");
-console.log("Tabla del 5");
-console.log("====================================");
 
-const base = 5;
-let salida = "";
+const [, , arg3 = "base=5"] = process.argv;
+const [, base = 5] = arg3.split("=");
+console.log(base);
 
-for (let i = 1; i <= 10; i++) {
-  salida += `${base} x ${i} = ${base * i}\n`;
-}
-console.log(salida);
+// const base = 3;
 
-fs.writeFile(`tabla-${base}.txt`, salida, (err) => {
-  if (err) throw err;
-  console.log("Archivo creado con éxito!");
-});
+crearTBL(base)
+  .then((archivo) => console.log(archivo, "creada."))
+  .catch((err) => console.log(err));
