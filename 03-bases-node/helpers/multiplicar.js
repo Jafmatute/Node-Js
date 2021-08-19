@@ -21,7 +21,7 @@ const crearTBL = async (base = 5, lista, hasta) => {
       console.log(consola);
     }
 
-    fs.writeFileSync(`tabla-${base}.txt`, salida);
+    fs.writeFileSync(`./salida/tabla-${base}.txt`, salida);
 
     return `Tabla-${base}.text`;
   } catch (error) {
