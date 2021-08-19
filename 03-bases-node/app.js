@@ -1,6 +1,7 @@
 /** @format */
 
 const { crearTBL } = require("./helpers/multiplicar.js");
+require("colors");
 const argv = require("./config/yargs.js");
 console.clear();
 /** 
@@ -16,6 +17,6 @@ console.clear();
   .catch((err) => console.log(err));
 */
 
-crearTBL(argv.b, argv.l)
-  .then((archivo) => console.log(archivo, "creada."))
+crearTBL(argv.b, argv.l, argv.h)
+  .then((archivo) => console.log(archivo.rainbow, "creada."))
   .catch((err) => console.log(err));
