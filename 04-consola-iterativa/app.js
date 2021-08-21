@@ -11,6 +11,7 @@ const {
   leerInput,
   listadoTareasBorrar,
   confirmar,
+  mostrarListadoCheckList,
 } = require("./helpers/inquirer.js");
 const Tareas = require("./models/tareas");
 
@@ -33,16 +34,20 @@ const main = async () => {
         const desc = await leerInput("Descripcion:");
         tareas.crearTarea(desc);
         break;
-      case "2":
+      case "2": // Listar Completadas | Pendientes
         tareas.listadoCompletado();
         break;
-      case "3":
+      case "3": //Listar completadas
         tareas.listarPendientesCompletadas(true);
         break;
-      case "4":
+      case "4": //Listar Pendientes
         tareas.listarPendientesCompletadas(false);
         break;
-      case "6":
+      case "5": //Completado | Pendientes
+        const ids = await mostrarListadoCheckList(tareas.listadoArr);
+        tareas.toggleCompletadas(ids);
+        break;
+      case "6": //Borrar
         const id = await listadoTareasBorrar(tareas.listadoArr);
         if (id !== "0") {
           const confir = await confirmar("¿Está seguro?");
