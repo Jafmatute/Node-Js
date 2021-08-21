@@ -26,6 +26,12 @@ class Tareas {
 
     return listado;
   }
+
+  cargarTareasArray(tareas = []) {
+    tareas.forEach((tarea) => {
+      this._listado[tarea.id] = tarea;
+    });
+  }
 }
 
 module.exports = Tareas;
