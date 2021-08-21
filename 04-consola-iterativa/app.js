@@ -5,7 +5,13 @@ console.clear();
 
 const { guardarDB, leerDB } = require("./helpers/guardarArchivo.js");
 // const { showMenu, pausa } = require("./helpers/mensajes.js");
-const { inquirerMenu, pausa, leerInput } = require("./helpers/inquirer.js");
+const {
+  inquirerMenu,
+  pausa,
+  leerInput,
+  listadoTareasBorrar,
+  confirmar,
+} = require("./helpers/inquirer.js");
 const Tareas = require("./models/tareas");
 
 const main = async () => {
@@ -35,6 +41,17 @@ const main = async () => {
         break;
       case "4":
         tareas.listarPendientesCompletadas(false);
+        break;
+      case "6":
+        const id = await listadoTareasBorrar(tareas.listadoArr);
+        if (id !== "0") {
+          const confir = await confirmar("¿Está seguro?");
+          if (confir) {
+            tareas.borrarTarea(id);
+            console.log("Tarea borrada correctamente".green);
+          }
+        }
+
         break;
       default:
         break;
