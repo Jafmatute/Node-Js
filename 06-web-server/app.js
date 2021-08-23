@@ -1,11 +1,12 @@
 /** @format */
 //importaciones
 const express = require("express");
-var hbs = require("hbs");
+const hbs = require("hbs");
+require("dotenv").config();
 
 //express
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 //hbs(HandleBars)
 app.set("view engine", "hbs");
