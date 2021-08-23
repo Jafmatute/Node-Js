@@ -6,7 +6,7 @@ class Busquedas {
   historial = [];
   dbPath = "./db/database.json";
   constructor() {
-    // TODO: Leer DB si existe!
+    this.leerDB();
   }
 
   get paramsMapBox() {
@@ -23,6 +23,15 @@ class Busquedas {
       units: "metric",
       lang: "es",
     };
+  }
+
+  get HistorialCapitalizado() {
+    return this.historial.map((lugar) => {
+      let palabras = lugar.split(" ");
+      palabras = palabras.map((p) => p[0].toUpperCase() + p.substring(1));
+
+      return palabras.join(" ");
+    });
   }
 
   async ciudad(lugar = "") {
@@ -72,6 +81,8 @@ class Busquedas {
       return;
     }
 
+    this.historial = this.historial.splice(0, 5);
+
     this.historial.unshift(lugar.toLocaleLowerCase());
 
     //Grabar en db
@@ -85,7 +96,16 @@ class Busquedas {
     fs.writeFileSync(this.dbPath, JSON.stringify(payload));
   }
 
-  leerDB() {}
+  leerDB() {
+    // Debe existir
+    if (!fs.existsSync(this.dbPath)) return;
+
+    const info = fs.readFileSync(this.dbPath, { encoding: "utf-8" });
+
+    const data = JSON.parse(info);
+
+    return (this.historial = data.historial);
+  }
 }
 
 module.exports = Busquedas;
