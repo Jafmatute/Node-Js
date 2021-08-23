@@ -2,16 +2,34 @@
 require("colors");
 console.clear();
 
-const { inquirerMenu, pausa } = require("./helpers/inquirer");
+const { inquirerMenu, pausa, leerInput } = require("./helpers/inquirer");
+const Busquedas = require("./models/busquedas");
 
 const main = async () => {
+  const busqueda = new Busquedas();
   let opt = 0;
 
   do {
     opt = await inquirerMenu();
     switch (opt) {
       case 1:
-        console.log("Selecciono la primera opción");
+        //Mostrar mensaje
+        const lugar = await leerInput("Ingrese la ciudad");
+        await busqueda.ciudad(lugar);
+        //Buscar los Lugares
+
+        //Seleccionar el lugar
+
+        // Datos
+
+        // Mostrar los resultados
+        console.log("\nInformación del lugar\n".green);
+        console.log(`Ciudad:`);
+        console.log(`Latitud:`);
+        console.log(`Longitud:`);
+        console.log(`Temperatura:`);
+        console.log(`Temperatura Mín`);
+        console.log(`Temperatura Max`);
         break;
       case 2:
         console.log("Selecciono la segunda opción");
