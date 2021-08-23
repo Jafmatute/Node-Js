@@ -11,22 +11,29 @@ class Busquedas {
   get paramsMapBox() {
     return {
       access_token: process.env.MAPBOX_KEY || null,
-      limit: 2,
+      limit: 5,
       lenguage: "es",
     };
   }
 
   async ciudad(lugar = "") {
-    // TODO: Petición Http
+    try {
+      const instace = axios.create({
+        baseURL: `https://api.mapbox.com/geocoding/v5/mapbox.places/${lugar}.json`,
+        params: this.paramsMapBox,
+      });
 
-    const instace = axios.create({
-      baseURL: `https://api.mapbox.com/geocoding/v5/mapbox.places/${lugar}.json`,
-      params: this.paramsMapBox,
-    });
+      const rsp = await instace.get();
 
-    const rsp = await instace.get();
-    console.log(rsp.data);
-    return [];
+      return rsp.data.features.map((lugar) => ({
+        id: lugar.id,
+        nombre: lugar.place_name,
+        lng: lugar.center[0],
+        lat: lugar.center[1],
+      }));
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
