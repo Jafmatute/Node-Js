@@ -2,7 +2,6 @@
 require("dotenv").config();
 require("colors");
 console.clear();
-
 const {
   inquirerMenu,
   pausa,
@@ -27,9 +26,13 @@ const main = async () => {
 
         //Seleccionar el lugar
         const id = await listarLugares(lugares);
+        if (id === 0) continue;
 
         // Datos
         const lugarSel = lugares.find((l) => l.id === id);
+
+        //Guardar en DB
+        busqueda.agregarHistorial(lugarSel.nombre);
 
         const estado = await busqueda.climaLugar(lugarSel.lat, lugarSel.lng);
         // Mostrar los resultados
@@ -44,7 +47,10 @@ const main = async () => {
         console.log("Como está el clima::", estado.descripcion.green);
         break;
       case 2:
-        console.log("Selecciono la segunda opción");
+        busqueda.historial.forEach((lugar, i) => {
+          const idx = `${i + 1}.`.green;
+          console.log(`${idx} ${lugar}`);
+        });
         break;
       default:
         break;

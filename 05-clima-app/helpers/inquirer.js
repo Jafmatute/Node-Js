@@ -1,7 +1,6 @@
 /** @format */
 const inquirer = require("inquirer");
 require("colors");
-
 const questions = [
   {
     type: "list",
