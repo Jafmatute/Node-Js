@@ -1,4 +1,5 @@
 /** @format */
+require("dotenv").config();
 require("colors");
 console.clear();
 
