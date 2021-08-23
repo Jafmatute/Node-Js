@@ -4,8 +4,17 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+app.set("view engine", "hbs");
+
 //Mostrar index html
 app.use(express.static("public"));
+
+app.get("/", (req, res) => {
+  res.render("home", {
+    nombre: "Josue Flores",
+    titulo: "Express -Node",
+  });
+});
 
 //Rutas de la página web
 app.get("/generic", (req, res) => {
