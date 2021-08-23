@@ -4,17 +4,20 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
-//Midleware (servir contenido estático)
+//Mostrar index html
 app.use(express.static("public"));
 
-app.get("/menu", (req, res) => {
-  res.send("menu");
+//Rutas de la página web
+app.get("/generic", (req, res) => {
+  res.sendFile(__dirname + "/public/generic.html");
 });
 
-app.get("*", (req, res) => {
-  res.sendFile(__dirname + "/public/404.html");
+app.get("/elements", (req, res) => {
+  res.sendFile(__dirname + "/public/elements.html");
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(
+    `Su proyecto está corriendo en el puerto http://localhost:${port}`
+  );
 });
