@@ -13,7 +13,7 @@ const usuariosGet = (req = request, res = response) => {
 };
 
 const usuariosPost = (req, res = response) => {
-  const { body } = req.body;
+  const body = req.body;
   res.status(201).json({
     message: "post api - Controlador",
     body,
