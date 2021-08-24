@@ -1,6 +1,7 @@
 /** @format */
 
 const express = require("express");
+const cors = require("cors");
 
 class Server {
   //Inicialización
@@ -18,14 +19,36 @@ class Server {
 
   //Middlewares
   middlewares() {
+    //CORS
+    this.app.use(cors());
     //Directorio Público
     this.app.use(express.static("public"));
   }
 
   //Rutas
   routes() {
-    this.app.get("/", (req, res) => {
-      res.send("Hola Mundo");
+    this.app.get("/api", (req, res) => {
+      res.json({
+        message: "get api",
+      });
+    });
+
+    this.app.post("/api", (req, res) => {
+      res.status(201).json({
+        message: "post api",
+      });
+    });
+
+    this.app.put("/api", (req, res) => {
+      res.json({
+        message: "put api",
+      });
+    });
+
+    this.app.delete("/api", (req, res) => {
+      res.json({
+        message: "delete api",
+      });
     });
   }
 
