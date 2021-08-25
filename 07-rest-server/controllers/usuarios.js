@@ -1,6 +1,6 @@
 /** @format */
 const { response, request } = require("express");
-
+const Usuario = require("../models/usuario");
 //Callback usuarios
 
 const usuariosGet = (req = request, res = response) => {
@@ -12,11 +12,17 @@ const usuariosGet = (req = request, res = response) => {
   });
 };
 
-const usuariosPost = (req, res = response) => {
+const usuariosPost = async (req, res = response) => {
   const body = req.body;
+
+  const usuario = new Usuario(body);
+
+  //Grabar registro
+  await usuario.save();
+
   res.status(201).json({
     message: "post api - Controlador",
-    body,
+    usuario,
   });
 };
 
