@@ -4,22 +4,23 @@ const bcryptjs = require("bcryptjs");
 const Usuario = require("../models/usuario");
 //Callback usuarios
 
-const usuariosGet = (req = request, res = response) => {
-  const { q, page = 1, limit = 10 } = req.query;
+const usuariosGet = async (req = request, res = response) => {
+  const { limit = 5, desde = 0 } = req.query;
+  const query = { estado: true };
+
+  const [total, usuarios] = await Promise.all([
+    Usuario.countDocuments(query),
+    Usuario.find(query).skip(Number(desde)).limit(Number(limit)),
+  ]);
   res.json({
-    message: "get api - Controlador",
-    page,
-    limit,
+    total,
+    usuarios,
   });
 };
 
 const usuariosPost = async (req, res = response) => {
   const { nombre, correo, password, rol } = req.body;
   const usuario = new Usuario({ nombre, correo, password, rol });
-
-  // Verificar si el e-mail existe
-  // const VerfifyEmail = await Usuario.findOne({ correo });
-  // if (VerfifyEmail) return res.status(400).json({ msg: "E-mail ya existe!" });
 
   //Encriptar la contraseña
   const salt = bcryptjs.genSaltSync(10);
@@ -28,9 +29,7 @@ const usuariosPost = async (req, res = response) => {
   //Grabar registro
   await usuario.save();
 
-  res.status(201).json({
-    usuario,
-  });
+  res.status(201).json(usuario);
 };
 
 const usuariosPut = async (req, res = response) => {
@@ -44,9 +43,7 @@ const usuariosPut = async (req, res = response) => {
   }
 
   const usuario = await Usuario.findByIdAndUpdate(id, resto);
-  res.json({
-    usuario,
-  });
+  res.json(usuario);
 };
 
 const usuariosPatch = (req, res = response) => {
