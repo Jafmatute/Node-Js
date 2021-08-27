@@ -1,7 +1,6 @@
 /** @format */
 
 const { Schema, model } = require("mongoose");
-const { usuariosDelete } = require("../controllers/usuarios");
 
 const UsuarioSchema = Schema({
   nombre: {

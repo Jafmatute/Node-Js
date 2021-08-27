@@ -18,8 +18,8 @@ const usuariosPost = async (req, res = response) => {
   const usuario = new Usuario({ nombre, correo, password, rol });
 
   // Verificar si el e-mail existe
-  const VerfifyEmail = await Usuario.findOne({ correo });
-  if (VerfifyEmail) return res.status(400).json({ msg: "E-mail ya existe!" });
+  // const VerfifyEmail = await Usuario.findOne({ correo });
+  // if (VerfifyEmail) return res.status(400).json({ msg: "E-mail ya existe!" });
 
   //Encriptar la contraseña
   const salt = bcryptjs.genSaltSync(10);
@@ -29,16 +29,24 @@ const usuariosPost = async (req, res = response) => {
   await usuario.save();
 
   res.status(201).json({
-    message: "post api - Controlador",
     usuario,
   });
 };
 
-const usuariosPut = (req, res = response) => {
+const usuariosPut = async (req, res = response) => {
   const { id } = req.params;
+  const { password, google, correo, ...resto } = req.body;
+
+  //TODO: validar contra la bd
+  if (password) {
+    //Encriptar la contraseña
+    const salt = bcryptjs.genSaltSync(10);
+    resto.password = bcryptjs.hashSync(password, salt);
+  }
+
+  const usuario = await Usuario.findByIdAndUpdate(id, resto);
   res.json({
-    message: "put api - Controlador",
-    id,
+    usuario,
   });
 };
 
