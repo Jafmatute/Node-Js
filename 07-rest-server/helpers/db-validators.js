@@ -15,7 +15,15 @@ const verifyEmail = async (correo = "") => {
   }
 };
 
+const verifyUsuario = async (id) => {
+  const usuario = await Usuario.findById(id);
+  if (!usuario) {
+    throw new Error(`El ID: ${id} no existe en la base de datos`);
+  }
+};
+
 module.exports = {
   isRolValidate,
   verifyEmail,
+  verifyUsuario,
 };
