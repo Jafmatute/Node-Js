@@ -8,9 +8,14 @@ const CargarArchivo = async (req, res) => {
     return;
   }
 
-  const nombre = await subirArchivo(req.files);
-
-  res.json({ nombre });
+  try {
+    // const nombre = await subirArchivo(req.files, ["txt", "md"], "textos");
+    const nombre = await subirArchivo(req.files, undefined, "imagenes");
+    res.json({ nombre });
+  } catch (msg) {
+    console.log(msg);
+    res.status(400).json({ msg });
+  }
 };
 
 module.exports = {

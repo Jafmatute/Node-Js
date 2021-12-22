@@ -18,7 +18,7 @@ const subirArchivo = (
     //Validar Extension
     if (!extensionesValidas.includes(extension)) {
       return reject(
-        `La extensión ${extension} no es permitida, ${extesionesVal}`
+        `La extensión ${extension} no es permitida, ${extensionesValidas}`
       );
     }
 
