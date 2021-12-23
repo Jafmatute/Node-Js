@@ -21,7 +21,7 @@ const cargarArchivo = async (req, res) => {
   }
 };
 
-actualizarImagen = async (req, res) => {
+const actualizarImagen = async (req, res) => {
   const { id, coleccion } = req.params;
 
   let modelo;
@@ -69,7 +69,54 @@ actualizarImagen = async (req, res) => {
   res.json(modelo);
 };
 
+const mostrarImagen = async (req, res) => {
+  const { id, coleccion } = req.params;
+
+  let modelo;
+
+  switch (coleccion) {
+    case "usuarios":
+      modelo = await Usuario.findById(id);
+      if (!modelo)
+        return res
+          .status(400)
+          .json({ msg: `Nop existe el usuario con el id ${id}` });
+      break;
+    case "productos":
+      modelo = await Producto.findById(id);
+      if (!modelo)
+        return res
+          .status(400)
+          .json({ msg: `No existe el producto con el id ${id}` });
+      break;
+
+    default:
+      return res.status(500).json({ msg: "Se me olvido validar esto" });
+      break;
+  }
+
+  //Limpiar imagenes previas
+
+  if (modelo.imagen) {
+    //Hay que borrar la imagen del servido5r
+    const pathImg = path.join(
+      __dirname,
+      "../uploads",
+      coleccion,
+      modelo.imagen
+    );
+    if (fs.existsSync(pathImg)) {
+      return res.sendFile(pathImg);
+    }
+  }
+
+  const pathImageHolder = path.join(__dirname, "../assets/imgs/no-image.jpg");
+
+  res.sendFile(pathImageHolder);
+};
+
 module.exports = {
   actualizarImagen,
   cargarArchivo,
+  mostrarImagen,
 };
