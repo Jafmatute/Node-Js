@@ -20,6 +20,9 @@ class Server {
 
     //Llamar rutas app
     this.routes();
+
+    //Sockets
+    this.sockets();
   }
 
   //Middlewares
@@ -31,17 +34,22 @@ class Server {
     this.app.use(express.static("public"));
   }
 
+  //Rutas
+  routes() {
+    //requerir mis rutas
+    // this.app.use(this.paths.auth, require("../routes/auth"));
+  }
+
+  sockets() {
+    this.io.on("connection", (socket) => {
+      console.log("cliente conectado", socket.id);
+    });
+  }
   //Correr app
   listen() {
     this.server.listen(this.port, () => {
       console.log(`URL::: http://localhost:${this.port}`);
     });
-  }
-
-  //Rutas
-  routes() {
-    //requerir mis rutas
-    // this.app.use(this.paths.auth, require("../routes/auth"));
   }
 }
 
