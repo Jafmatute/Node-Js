@@ -42,7 +42,13 @@ class Server {
 
   sockets() {
     this.io.on("connection", (socket) => {
-      console.log("cliente conectado", socket.id);
+      // console.log("cliente conectado", socket.id);
+
+      socket.on("disconnect", () => {});
+
+      socket.on("enviar-mensaje", (payload) => {
+        this.io.emit("enviar-mensaje", payload);
+      });
     });
   }
   //Correr app
