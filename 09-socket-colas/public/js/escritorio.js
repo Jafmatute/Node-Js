@@ -3,6 +3,9 @@
 //Referencias HTML
 const lblEscritorio = document.querySelector("h1");
 const btnAtender = document.querySelector("button");
+const lblTicket = document.querySelector("small");
+const divlerta = document.querySelector(".alert");
+
 const searchParams = new URLSearchParams(window.location.search);
 
 if (!searchParams.has("escritorio")) {
@@ -12,6 +15,8 @@ if (!searchParams.has("escritorio")) {
 
 const escritorio = searchParams.get("escritorio");
 lblEscritorio.innerHTML = escritorio;
+
+divlerta.style.display = "none";
 
 const socket = io();
 
@@ -28,7 +33,12 @@ socket.on("ultimo-ticket", (ultimo) => {
 });
 
 btnAtender.addEventListener("click", () => {
-  /*socket.emit("siguiente-ticket", null, (ticket) => {
-    lblNuevoTicket.innerText = ticket;
-  });*/
+  socket.emit("atender-ticket", { escritorio }, ({ ok, ticket }) => {
+    if (!ok) {
+      lblTicket.innerText = `NADIE`;
+      return (divlerta.style.display = "");
+    }
+
+    lblTicket.innerText = `Ticket ${ticket.numero}`;
+  });
 });
