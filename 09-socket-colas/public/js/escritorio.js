@@ -5,6 +5,7 @@ const lblEscritorio = document.querySelector("h1");
 const btnAtender = document.querySelector("button");
 const lblTicket = document.querySelector("small");
 const divlerta = document.querySelector(".alert");
+const lblPendientes = document.querySelector("#lblPendientes");
 
 const searchParams = new URLSearchParams(window.location.search);
 
@@ -28,8 +29,13 @@ socket.on("disconnect", () => {
   btnAtender.disabled = true;
 });
 
-socket.on("ultimo-ticket", (ultimo) => {
-  //   lblNuevoTicket.innerText = "Ticket " + ultimo;
+socket.on("tickets-pendientes", (pendientes) => {
+  if (pendientes === 0) {
+    lblPendientes.style.display = "none";
+  } else {
+    lblPendientes.innerText = pendientes;
+    lblPendientes.style.display = "";
+  }
 });
 
 btnAtender.addEventListener("click", () => {
