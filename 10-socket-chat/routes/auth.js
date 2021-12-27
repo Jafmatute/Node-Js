@@ -3,10 +3,11 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
 
-const { validarCampos } = require("../Middlewares/validator-campos");
+const { validarCampos } = require("../Middlewares/");
 
 //Controllers
-const { login, googleSignIn } = require("../controllers/auth");
+const { login, googleSignIn, renovarToken } = require("../controllers/auth");
+const { validarJWT } = require("../Middlewares");
 
 const router = Router();
 
@@ -25,5 +26,7 @@ router.post(
   [check("id_token", "El token de google es obligatorio"), validarCampos],
   googleSignIn
 );
+
+router.get("/", validarJWT, renovarToken);
 
 module.exports = router;

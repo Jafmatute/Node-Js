@@ -1,13 +1,11 @@
 /** @format */
-
-const { response } = require("express");
 const bcryptjs = require("bcryptjs");
 
 const { Usuario } = require("../models/");
 const { generarJWT } = require("../helpers/jwt");
 const { googleVerify } = require("../helpers/google-verify");
 
-const login = async (req, res = response) => {
+const login = async (req, res) => {
   const { correo, password } = req.body;
 
   try {
@@ -47,7 +45,7 @@ const login = async (req, res = response) => {
   }
 };
 
-const googleSignIn = async (req, res = response) => {
+const googleSignIn = async (req, res) => {
   const { id_token } = req.body;
 
   try {
@@ -84,7 +82,19 @@ const googleSignIn = async (req, res = response) => {
   }
 };
 
+const renovarToken = async (req, res) => {
+  const { usuario } = req;
+
+  //Generar token
+  const token = await generarJWT(usuario.id);
+  res.json({
+    usuario,
+    token,
+  });
+};
+
 module.exports = {
   login,
   googleSignIn,
+  renovarToken,
 };
