@@ -49,9 +49,7 @@ const conectarSocket = async () => {
     console.log("socket ofline");
   });
 
-  socket.on("recibir-mensajes", () => {
-    // TODO:
-  });
+  socket.on("recibir-mensajes", dibujarMensajes);
 
   socket.on("usuarios-activos", dibujarUsuarios);
 
@@ -71,6 +69,29 @@ const dibujarUsuarios = (usuarios = []) => {
 
   ulUsuarios.innerHTML = userHTML;
 };
+
+const dibujarMensajes = (mensajes = []) => {
+  let mensajesHTML = "";
+  mensajes.forEach(({ nombre, mensaje }) => {
+    mensajesHTML += `
+    <li> <p> <span class="text-primary"> ${nombre}: </span> </p> </li>
+    <span>${mensaje}</span>
+    `;
+  });
+
+  ulMensajes.innerHTML = mensajesHTML;
+};
+
+txtMensaje.addEventListener("keyup", ({ keyCode }) => {
+  const mensaje = txtMensaje.value;
+  const uid = txtUid.value;
+
+  if (keyCode !== 13) return;
+  if (mensaje.length === 0) return;
+
+  socket.emit("enviar-mensaje", { uid, mensaje });
+  txtMensaje.value = "";
+});
 
 const main = async () => {
   await validarJWT();
