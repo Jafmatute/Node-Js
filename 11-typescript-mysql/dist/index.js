@@ -4,7 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = __importDefault(require("./server/server"));
-const server = server_1.default.init(3000);
+const port = 3000;
+const server = server_1.default.init(port);
 server.start(() => {
-    console.log(`Servidor corriendo en el puerto 3000`);
+    console.log(`Example app listening at http://localhost:${port}`);
 });

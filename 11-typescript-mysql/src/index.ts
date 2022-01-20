@@ -1,6 +1,7 @@
 import Server from "./server/server";
+const port = 3000;
+const server = Server.init(port);
 
-const server = Server.init(3000);
 server.start(() => {
-    console.log(`Servidor corriendo en el puerto 3000`)
+    console.log(`Example app listening at http://localhost:${port}`);
 })
