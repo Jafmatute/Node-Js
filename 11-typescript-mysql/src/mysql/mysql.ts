@@ -26,6 +26,22 @@ class MYSQL {
         return this._instance || (this._instance = new this());
     }
 
+    static ejecutarQuery(query: string, callback: Function) {
+        this.instance.cnn.query(query, (err, results: object[], fields) => {
+            if (err) {
+                console.log('error en query');
+                return callback(err);
+            }
+
+            if (results.length === 0) {
+                callback('El registro solicitado no existe')
+            } else {
+                callback(null, results);
+            }
+
+
+        });
+    }
     private conectarDB() {
         this.cnn.connect((error: mysql.MysqlError) => {
             if (error) return console.log(error);
