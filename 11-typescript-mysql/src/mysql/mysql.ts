@@ -21,6 +21,11 @@ class MYSQL {
 
     }
 
+    public static get instance() {
+
+        return this._instance || (this._instance = new this());
+    }
+
     private conectarDB() {
         this.cnn.connect((error: mysql.MysqlError) => {
             if (error) return console.log(error);

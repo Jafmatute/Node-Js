@@ -14,6 +14,9 @@ class MYSQL {
         });
         this.conectarDB();
     }
+    static get instance() {
+        return this._instance || (this._instance = new this());
+    }
     conectarDB() {
         this.cnn.connect((error) => {
             if (error)

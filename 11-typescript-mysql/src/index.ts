@@ -7,7 +7,8 @@ const server = Server.init(port);
 
 server.app.use(router);
 
-const mysql = new MYSQL();
+// const mysql = new MYSQL();
+//MYSQL.instance;
 
 server.start(() => {
     console.log(`Example app listening at http://localhost:${port}`);
